@@ -16,7 +16,7 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'ophrase=ophrase.ophrase_main:main'
+            'ophrase=ophrase.main:Main.run'
         ],
     },
 )
