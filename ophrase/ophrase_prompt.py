@@ -1,5 +1,3 @@
-# ophrase_prompt.py
-
 from typing import NamedTuple
 
 class OphrasePrompt(NamedTuple):

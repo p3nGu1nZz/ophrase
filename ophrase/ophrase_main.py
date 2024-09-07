@@ -1,5 +1,3 @@
-# ophrase_main.py
-
 from tenacity import retry, stop_after_attempt, wait_fixed
 from rich.console import Console
 from .ophrase_log import Log

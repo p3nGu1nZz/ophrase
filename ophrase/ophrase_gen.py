@@ -1,9 +1,7 @@
-# ophrase_gen.py
-
 from typing import List, Dict, Any
 from .ophrase_log import Log
 from .ophrase_const import Const
-from .ophrase_template import TASKS, RESPONSE_TEMPLATE, RESPONSE_SYS, RESPONSE_INSTR, PROOF_TEMPLATE, PROOF_SYS, PROOF_INSTR
+from .ophrase_template import TASKS, TEMPLATES, SYSTEM_PROMPTS, INSTRUCTIONS
 import ollama as oll
 import json
 
@@ -16,7 +14,7 @@ class OphraseGen:
         Log.debug(f"Generating responses for: {original_text}")
         results = []
         for task in TASKS.keys():
-            response = self.task.generate(original_text, task, RESPONSE_TEMPLATE, RESPONSE_SYS, RESPONSE_INSTR)
+            response = self.task.generate(original_text, task, TEMPLATES["response"], SYSTEM_PROMPTS["response"], INSTRUCTIONS)
             if Const.ERROR_KEY not in response:
                 results.append(response)
             if len(results) >= 3:
@@ -27,6 +25,6 @@ class OphraseGen:
         Log.debug(f"Generating proofs for: {original_text}")
         valid_responses = []
         for response in responses:
-            proof_response = self.task.generate(response, "paraphrase", PROOF_TEMPLATE, PROOF_SYS, PROOF_INSTR)
-            valid_responses.append(proof_response["response"])  # Ensure this key matches the actual response structure
+            proof_response = self.task.generate(response, "paraphrase", TEMPLATES["proof"], SYSTEM_PROMPTS["proof"], INSTRUCTIONS)
+            valid_responses.append(proof_response["response"])
         return valid_responses

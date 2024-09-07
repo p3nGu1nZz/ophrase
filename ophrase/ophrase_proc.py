@@ -1,5 +1,3 @@
-# ophrase_processor.py
-
 from tenacity import retry, stop_after_attempt, wait_fixed
 from typing import List, Dict, Any, Tuple
 import json, subprocess as proc, ollama as oll
@@ -56,6 +54,6 @@ class OphraseProcessor:
             if Const.ERROR_KEY not in result:
                 results.append(result)
                 prompts.append(result['prompt'])
-            if len(results) >= 3:
+            if len (results) >= 3:
                 return results[:3], prompts
         return results, prompts

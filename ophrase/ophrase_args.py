@@ -1,5 +1,3 @@
-# ophrase_args.py
-
 import argparse
 from .ophrase_const import Const
 

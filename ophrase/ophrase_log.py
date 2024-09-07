@@ -1,19 +1,11 @@
-# ophrase_log.py
-
 from loguru import logger as log
 
 class Log:
-    DEBUG = "DEBUG"
-    INFO = "INFO"
-    WARNING = "WARNING"
-    ERROR = "ERROR"
-    CRITICAL = "CRITICAL"
-
     @staticmethod
     def setup(debug: bool) -> None:
         log.remove()
         if debug:
-            log.add(lambda msg: print(msg, end=''), level=Log.DEBUG)
+            log.add(lambda msg: print(msg, end=''), level="DEBUG")
 
     @staticmethod
     def debug(message: str) -> None:

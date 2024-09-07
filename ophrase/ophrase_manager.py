@@ -1,5 +1,3 @@
-# ophrase_manager.py
-
 from typing import List, Dict, Any, Tuple
 from .ophrase_task import OphraseTask
 from .ophrase_gen import OphraseGen

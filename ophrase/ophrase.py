@@ -1,11 +1,8 @@
-# ophrase.py
-
 import json
 from typing import List, Dict, Any, Tuple
 from .ophrase_const import Const
 from .ophrase_config import Config
 from .ophrase_manager import OphraseManager
-from .ophrase_main import OphraseMain
 from .ophrase_args import parse_args
 
 class Ophrase:
@@ -29,8 +26,7 @@ if __name__ == "__main__":
         args = parse_args()
         cfg = Config(debug=args.debug)
         ophrase = Ophrase(cfg)
-        ophrase_main = OphraseMain(cfg)
-        ophrase_main._run(args.text, args.debug, args.prompt)
+        ophrase.manager._run(args.text, args.debug, args.prompt)
     except Exception as e:
         error_output = {Const.ERROR_KEY: f"{Const.ERROR_PROCESSING_INPUT}{e}"}
         if args.debug:
