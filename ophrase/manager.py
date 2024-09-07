@@ -1,6 +1,6 @@
 from typing import List, Dict, Any, Tuple
-from .task import Task  # Updated import
-from .generator import Generator  # Updated import
+from .task import Task
+from .generator import Generator
 from .ophrase_log import Log
 from .ophrase_const import Const
 from .ophrase_config import Config
@@ -13,10 +13,10 @@ class Manager:
         self._log = Log
 
     def check(self) -> None:
-        self.task.run_command(['ollama', '--version'], Const.RUN_COMMAND_ERROR)
+        self.task.run(['ollama', '--version'], Const.RUN_COMMAND_ERROR)
 
     def pull(self) -> None:
-        self.task.run_command(['ollama', 'pull', self.cfg.model], f"{Const.PULL_COMMAND_ERROR} {self.cfg.model}.")
+        self.task.run(['ollama', 'pull', self.cfg.model], f"{Const.PULL_COMMAND_ERROR} {self.cfg.model}.")
 
     def generate(self, text: str) -> Tuple[List[Dict[str, Any]], List[str]]:
         responses = self.gen.generate_responses(text)

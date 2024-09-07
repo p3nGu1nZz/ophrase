@@ -10,7 +10,7 @@ class Task:
     def __init__(self, cfg):
         self.cfg = cfg
 
-    def run_command(self, cmd: List[str], error_msg: str = Const.RUN_COMMAND_ERROR) -> None:
+    def run(self, cmd: List[str], error_msg: str = Const.RUN_COMMAND_ERROR) -> None:
         try:
             result = proc.run(cmd, capture_output=True, text=True)
             if result.returncode != 0:
@@ -20,14 +20,25 @@ class Task:
             Log.error(error_msg)
             raise Exception(error_msg)
 
-    def execute_task(self, text: str, task: str, template, system_prompt, instructions) -> Dict[str, Any]:
-        prompt = template.render(system=system_prompt, task=task, text=text, example=TASKS[task], instructions=instructions, lang=self.cfg.lang)
+    def execute(self, text: str, task: str, template, system_prompt, instructions) -> Dict[str, Any]:
+        prompt = template.render(
+            system=system_prompt,
+            task=task,
+            text=text,
+            example=TASKS[task],
+            instructions=instructions,
+            lang=self.cfg.lang
+        )
         Log.debug(f"Prompt: {prompt}")
-        resp = oll.generate(prompt=prompt, model=self.cfg.model)
-        Log.debug(f"Response: {resp}")
+        
+        output = oll.generate(prompt=prompt, model=self.cfg.model)
+        Log.debug(f"Response: {output}")
         Log.debug(Const.PROMPT_SEPARATOR)
-        resp_str = resp['response']
-        Log.debug(f"Response string: {resp_str}")
-        resp_json = json.loads(resp_str)
-        Log.debug(f"Response JSON: {resp_json}")
-        return {"prompt": prompt, "response": resp_json}
+        
+        data = output['response']
+        Log.debug(f"Data: {data}")
+        
+        response = json.loads(data)
+        Log.debug(f"Response: {response}")
+        
+        return {"prompt": prompt, "data": data, "response": response}

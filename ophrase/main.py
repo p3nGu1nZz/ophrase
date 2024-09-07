@@ -12,6 +12,9 @@ import json
 
 console = Console()
 
+class ValidationError(Exception):
+    pass
+
 class Main:
     def __init__(self, cfg: Config):
         self.cfg = cfg
@@ -35,24 +38,12 @@ class Main:
 
     def _execute(self, text: str, debug: bool, include_prompts: bool) -> None:
         try:
-            self._check_manager()
-            res, response_prompts = self._generate_responses(text)
-            proofs = self._validate_responses(text, res)
-            self._output_results(text, res, response_prompts, proofs, include_prompts)
+            self.manager.check()
+            responses, response_prompts = self.manager.generate(text)
+            proofs = self.manager.validate(text, [r["response"] for r in responses])
+            final_result = serialize_output(text, responses, response_prompts, proofs, include_prompts)
+            print(json.dumps(final_result, indent=2, separators=(',', ': ')))
         except ValidationError as e:
             handle_error(e, debug)
         except Exception as e:
             handle_error(e, debug)
-
-    def _check_manager(self) -> None:
-        self.manager.check()
-
-    def _generate_responses(self, text: str) -> Tuple[List[Dict[str, Any]], List[str]]:
-        return self.manager.generate(text)
-
-    def _validate_responses(self, text: str, responses: List[Dict[str, Any]]) -> List[str]:
-        return self.manager.validate(text, [r["response"] for r in responses])
-
-    def _output_results(self, text: str, res: List[Dict[str, Any]], response_prompts: List[str], proofs: List[str], include_prompts: bool) -> None:
-        final_result = serialize_output(text, res, response_prompts, proofs, include_prompts)
-        print(json.dumps(final_result, indent=2, separators=(',', ': ')))
