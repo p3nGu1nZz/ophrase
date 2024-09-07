@@ -1,15 +1,15 @@
 from typing import List, Dict, Any, Tuple
-from .ophrase_task import OphraseTask
-from .ophrase_gen import OphraseGen
+from .task import Task  # Updated import
+from .generator import Generator  # Updated import
 from .ophrase_log import Log
 from .ophrase_const import Const
 from .ophrase_config import Config
 
-class OphraseManager:
+class Manager:
     def __init__(self, cfg: Config):
         self.cfg = cfg
-        self.task = OphraseTask(cfg)
-        self.gen = OphraseGen(cfg, self.task)
+        self.task = Task(cfg)
+        self.gen = Generator(cfg, self.task)
         self._log = Log
 
     def check(self) -> None:

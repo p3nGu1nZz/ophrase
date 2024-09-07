@@ -6,7 +6,7 @@ import subprocess as proc
 import ollama as oll
 import json
 
-class OphraseTask:
+class Task:
     def __init__(self, cfg):
         self.cfg = cfg
 
@@ -20,7 +20,7 @@ class OphraseTask:
             Log.error(error_msg)
             raise Exception(error_msg)
 
-    def generate(self, text: str, task: str, template, system_prompt, instructions) -> Dict[str, Any]:
+    def execute_task(self, text: str, task: str, template, system_prompt, instructions) -> Dict[str, Any]:
         prompt = template.render(system=system_prompt, task=task, text=text, example=TASKS[task], instructions=instructions, lang=self.cfg.lang)
         Log.debug(f"Prompt: {prompt}")
         resp = oll.generate(prompt=prompt, model=self.cfg.model)

@@ -5,7 +5,7 @@ from .ophrase_template import TASKS, TEMPLATES, SYSTEM_PROMPTS, INSTRUCTIONS
 import ollama as oll
 import json
 
-class OphraseGen:
+class Generator:
     def __init__(self, cfg, task):
         self.cfg = cfg
         self.task = task
@@ -14,7 +14,7 @@ class OphraseGen:
         Log.debug(f"Generating responses for: {original_text}")
         results = []
         for task in TASKS.keys():
-            response = self.task.generate(original_text, task, TEMPLATES["response"], SYSTEM_PROMPTS["response"], INSTRUCTIONS)
+            response = self.task.execute_task(original_text, task, TEMPLATES["response"], SYSTEM_PROMPTS["response"], INSTRUCTIONS)
             if Const.ERROR_KEY not in response:
                 results.append(response)
             if len(results) >= 3:
@@ -25,6 +25,6 @@ class OphraseGen:
         Log.debug(f"Generating proofs for: {original_text}")
         valid_responses = []
         for response in responses:
-            proof_response = self.task.generate(response, "paraphrase", TEMPLATES["proof"], SYSTEM_PROMPTS["proof"], INSTRUCTIONS)
+            proof_response = self.task.execute_task(response, "paraphrase", TEMPLATES["proof"], SYSTEM_PROMPTS["proof"], INSTRUCTIONS)
             valid_responses.append(proof_response["response"])
         return valid_responses
