@@ -1,8 +1,8 @@
 from tenacity import retry, stop_after_attempt, wait_fixed
 from rich.console import Console
 from typing import List, Dict, Any, Tuple
-from .ophrase_log import Log
-from .ophrase_serializer import serialize_output
+from .log import Log  # Updated import
+from .serializer import Serializer  # Updated import
 from .ophrase_const import Const
 from .ophrase_config import Config
 from .manager import Manager
@@ -26,22 +26,18 @@ class Main:
         try:
             args = parse_args()
             main = Main(Config(debug=args.debug))
-            main._setup_logging(args.debug)
+            Log.setup(args.debug)
+            Log.start_main_function()
             main._execute(args.text, args.debug, args.prompt)
         except Exception as e:
             handle_error(e, args.debug)
-
-    def _setup_logging(self, debug: bool) -> None:
-        if not debug:
-            Log.setup(debug)
-        Log.debug(Const.STARTING_MAIN_FUNCTION)
 
     def _execute(self, text: str, debug: bool, include_prompts: bool) -> None:
         try:
             self.manager.check()
             responses, response_prompts = self.manager.generate(text)
             proofs = self.manager.validate(text, [r["response"] for r in responses])
-            final_result = serialize_output(text, responses, response_prompts, proofs, include_prompts)
+            final_result = Serializer.serialize_output(text, responses, response_prompts, proofs, include_prompts)
             print(json.dumps(final_result, indent=2, separators=(',', ': ')))
         except ValidationError as e:
             handle_error(e, debug)

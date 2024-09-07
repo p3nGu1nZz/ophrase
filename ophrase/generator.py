@@ -1,5 +1,5 @@
 from typing import List, Dict, Any
-from .ophrase_log import Log
+from .log import Log  # Updated import
 from .ophrase_const import Const
 from .ophrase_template import TASKS, TEMPLATES, SYSTEM_PROMPTS, INSTRUCTIONS
 import ollama as oll

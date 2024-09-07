@@ -4,8 +4,7 @@ class Log:
     @staticmethod
     def setup(debug: bool) -> None:
         log.remove()
-        if debug:
-            log.add(lambda msg: print(msg, end=''), level="DEBUG")
+        log.add(lambda msg: print(msg, end=''), level="DEBUG" if debug else "INFO")
 
     @staticmethod
     def debug(message: str) -> None:
@@ -26,3 +25,7 @@ class Log:
     @staticmethod
     def critical(message: str) -> None:
         log.critical(message)
+
+    @staticmethod
+    def start_main_function() -> None:
+        log.debug("Starting main function")
