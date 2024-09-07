@@ -1,5 +1,3 @@
-# setup.py
-
 from setuptools import setup, find_packages
 
 setup(
@@ -9,14 +7,16 @@ setup(
     install_requires=[
         'tenacity',
         'rich',
-        'ollama',
+        'loguru',
         'pydantic',
         'jinja2',
-        'loguru',
+        'ollama',
+        'flake8',
+        'pytest'
     ],
     entry_points={
         'console_scripts': [
-            'ophrase=ophrase.ophrase_main:main',
+            'ophrase=ophrase.ophrase_main:main'
         ],
     },
 )

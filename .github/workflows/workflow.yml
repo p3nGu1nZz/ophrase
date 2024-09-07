@@ -33,3 +33,7 @@ jobs:
     - name: Lint code
       run: |
         flake8 .
+
+    - name: Run Ophrase
+      run: |
+        python -m ophrase "What is the past tense of 'write'?"
