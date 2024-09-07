@@ -1,5 +1,6 @@
 from tenacity import retry, stop_after_attempt, wait_fixed
 from rich.console import Console
+from rich.json import JSON  # Ensure JSON is imported
 from typing import List, Dict, Any, Tuple
 from .log import Log
 from .serializer import Serializer
@@ -25,19 +26,24 @@ class Main:
         try:
             main = Main(Config(debug=parsed_args.debug))
             Log.setup(parsed_args.debug)
-            Log.start_main_function()
+            if parsed_args.debug:
+                Log.start_main_function()
             main._execute(parsed_args.text, parsed_args.debug, parsed_args.prompt)
         except Exception as e:
             handle_error(e, parsed_args.debug)
 
     def _execute(self, text: str, debug: bool, include_prompts: bool) -> None:
         try:
-            self.manager.check()
-            responses, response_prompts = self.manager.generate(text)
-            proofs = self.manager.validate(text, [r["response"] for r in responses])
-            final_result = Serializer.serialize_output(text, responses, response_prompts, proofs, include_prompts)
-            print(json.dumps(final_result, indent=2, separators=(',', ': ')))
+            self.manager.check_version()
+            responses, response_prompts = self.manager.generate_responses_and_prompts(text)
+            proofs = self.manager.generate_proofs(text, [r["response"] for r in responses])
+            proof_prompts = [self.manager.generate_proof_prompt(r["response"]) for r in responses]
+            final_result = Serializer.serialize_output(text, responses, response_prompts, proofs, proof_prompts, include_prompts)
+            json_output = json.dumps(final_result, indent=2, separators=(',', ': '))
+            console.print(JSON(json_output))  # Print colored JSON
         except ValidationError as e:
             handle_error(e, debug)
         except Exception as e:
             handle_error(e, debug)
+
+

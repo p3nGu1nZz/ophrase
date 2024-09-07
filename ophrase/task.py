@@ -1,7 +1,7 @@
 from typing import List, Dict, Any
 from .log import Log
 from .ophrase_const import Const
-from .ophrase_template import TASKS
+from .template import Template  # Updated import
 import subprocess as proc
 import ollama as oll
 import json
@@ -40,7 +40,7 @@ class Task:
             system=system_prompt,
             task=task,
             text=text,
-            example=TASKS[task],
+            example=Template.TASKS[task],
             instructions=instructions,
             lang=self.cfg.lang
         )
@@ -50,3 +50,9 @@ class Task:
 
     def _parse_response(self, response: str) -> Dict[str, Any]:
         return json.loads(response)
+
+    def create_prompt(self, text: str, task: str) -> str:
+        template = Template.TEMPLATES[task]
+        system_prompt = Template.SYSTEM_PROMPTS[task]
+        instructions = Template.INSTRUCTIONS
+        return self._render_prompt(text, task, template, system_prompt, instructions)

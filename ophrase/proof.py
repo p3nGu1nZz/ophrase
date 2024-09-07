@@ -1,3 +1,6 @@
+from typing import List
+from .log import Log
+
 class Proof:
     def __init__(self, gen):
         self.gen = gen

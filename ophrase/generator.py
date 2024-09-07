@@ -1,9 +1,7 @@
 from typing import List, Dict, Any
-from .log import Log  # Updated import
+from .log import Log
 from .ophrase_const import Const
-from .ophrase_template import TASKS, TEMPLATES, SYSTEM_PROMPTS, INSTRUCTIONS
-import ollama as oll
-import json
+from .template import Template  # Updated import
 
 class Generator:
     def __init__(self, cfg, task):
@@ -13,8 +11,10 @@ class Generator:
     def generate_responses(self, original_text: str) -> List[Dict[str, Any]]:
         Log.debug(f"Generating responses for: {original_text}")
         results = []
-        for task in TASKS.keys():
-            response = self.task.execute(original_text, task, TEMPLATES["response"], SYSTEM_PROMPTS["response"], INSTRUCTIONS)
+        response_template = Template.TEMPLATES["response"]
+        system_prompt = Template.SYSTEM_PROMPTS["response"]
+        for task in Template.TASKS.keys():
+            response = self.task.execute(original_text, task, response_template, system_prompt, Template.INSTRUCTIONS)
             if Const.ERROR_KEY not in response:
                 results.append(response)
             if len(results) >= 3:
@@ -24,7 +24,15 @@ class Generator:
     def generate_proofs(self, original_text: str, responses: List[str]) -> List[str]:
         Log.debug(f"Generating proofs for: {original_text}")
         valid_responses = []
+        proof_template = Template.TEMPLATES["proof"]
+        system_prompt = Template.SYSTEM_PROMPTS["proof"]
         for response in responses:
-            proof_response = self.task.execute(response, "paraphrase", TEMPLATES["proof"], SYSTEM_PROMPTS["proof"], INSTRUCTIONS)
+            proof_response = self.task.execute(response, "proof", proof_template, system_prompt, Template.INSTRUCTIONS)
             valid_responses.append(proof_response["response"])
         return valid_responses
+
+    def generate_prompt(self, text: str, task: str) -> str:
+        template = Template.TEMPLATES[task]
+        system_prompt = Template.SYSTEM_PROMPTS[task]
+        instructions = Template.INSTRUCTIONS
+        return self.task._render_prompt(text, task, template, system_prompt, instructions)

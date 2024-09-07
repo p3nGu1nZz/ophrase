@@ -1,31 +1,36 @@
-from loguru import logger as log
+from rich.console import Console
+from rich.logging import RichHandler
+import logging
+
+console = Console()
 
 class Log:
     @staticmethod
-    def setup(debug: bool) -> None:
-        log.remove()
-        log.add(lambda msg: print(msg, end=''), level="DEBUG" if debug else "INFO")
+    def debug(message: str):
+        logging.debug(message)
 
     @staticmethod
-    def debug(message: str) -> None:
-        log.debug(message)
+    def info(message: str):
+        logging.info(message)
 
     @staticmethod
-    def info(message: str) -> None:
-        log.info(message)
+    def warning(message: str):
+        logging.warning(message)
 
     @staticmethod
-    def warning(message: str) -> None:
-        log.warning(message)
+    def error(message: str):
+        logging.error(message)
 
     @staticmethod
-    def error(message: str) -> None:
-        log.error(message)
+    def setup(debug: bool):
+        logging_level = logging.DEBUG if debug else logging.WARNING
+        logging.basicConfig(
+            level=logging_level, 
+            format="%(message)s", 
+            datefmt="[%X]", 
+            handlers=[RichHandler(console=console)]
+        )
 
     @staticmethod
-    def critical(message: str) -> None:
-        log.critical(message)
-
-    @staticmethod
-    def start_main_function() -> None:
-        log.debug("Starting main function")
+    def start_main_function():
+        Log.info("Starting main function")
