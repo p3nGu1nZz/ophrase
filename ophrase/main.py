@@ -6,8 +6,9 @@ from .serializer import Serializer
 from .ophrase_const import Const
 from .ophrase_config import Config
 from .manager import Manager
-from .ophrase_args import parse_args
+from .args import Args
 from .error import handle_error, ValidationError
+from .decorators import args  # Updated import
 import json
 
 console = Console()
@@ -19,15 +20,15 @@ class Main:
 
     @staticmethod
     @retry(stop=stop_after_attempt(5), wait=wait_fixed(1))
-    def run():
+    @args
+    def run(parsed_args):
         try:
-            args = parse_args()
-            main = Main(Config(debug=args.debug))
-            Log.setup(args.debug)
+            main = Main(Config(debug=parsed_args.debug))
+            Log.setup(parsed_args.debug)
             Log.start_main_function()
-            main._execute(args.text, args.debug, args.prompt)
+            main._execute(parsed_args.text, parsed_args.debug, parsed_args.prompt)
         except Exception as e:
-            handle_error(e, args.debug)
+            handle_error(e, parsed_args.debug)
 
     def _execute(self, text: str, debug: bool, include_prompts: bool) -> None:
         try:

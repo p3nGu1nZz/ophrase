@@ -1,7 +1,7 @@
 from typing import List, Dict, Any, Tuple
 from .task import Task
 from .generator import Generator
-from .log import Log  # Updated import
+from .log import Log
 from .ophrase_const import Const
 from .ophrase_config import Config
 
