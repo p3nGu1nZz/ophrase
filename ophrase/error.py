@@ -1,6 +1,9 @@
 import json
 from .ophrase_const import Const
 
+class ValidationError(Exception):
+    pass
+
 def handle_error(e: Exception, debug: bool) -> None:
     error_output = {Const.ERROR_KEY: f"{Const.ERROR_PROCESSING_INPUT}{e}"}
     if debug:
