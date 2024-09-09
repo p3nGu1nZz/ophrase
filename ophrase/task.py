@@ -20,7 +20,7 @@ class Task:
 
     def execute(self, text: str, task: str, template, system_prompt, instructions) -> Dict[str, Any]:
         prompt = self._render_prompt(text, task, template, system_prompt, instructions)
-        prompt = self._post_process(prompt, task)  # Pass the task argument here
+        prompt = self._post_process(prompt, task)
         Log.debug(f"Prompt: {prompt}")
         
         output = self._generate_output(prompt)
@@ -58,6 +58,17 @@ class Task:
     def _generate_output(self, prompt: str) -> Dict[str, Any]:
         return oll.generate(prompt=prompt, model=self.cfg.model)
 
-    def _parse_response(self, response: str) -> Dict[str, Any]:
+    def _parse_response(self, response: str) -> Any:
         Log.debug(f"Raw response: {response}")
-        return json.loads(response)
+        try:
+            # Ensure the response is a valid JSON array
+            return json.loads(response)
+        except json.JSONDecodeError as e:
+            Log.error(f"JSON decode error: {e}")
+            return {"error": "Invalid JSON response"}
+
+    def create_prompt(self, text: str, task: str) -> str:
+        template = Template.TEMPLATES[task]
+        system_prompt = Template.SYSTEM_PROMPTS[task]
+        instructions = Template.INSTRUCTIONS
+        return self._render_prompt(text, task, template, system_prompt, instructions)
