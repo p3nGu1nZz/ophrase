@@ -31,8 +31,3 @@ class Generator:
             valid_responses.append(proof_response["response"])
         return valid_responses
 
-    def generate_prompt(self, text: str, task: str) -> str:
-        template = Template.TEMPLATES[task]
-        system_prompt = Template.SYSTEM_PROMPTS[task]
-        instructions = Template.INSTRUCTIONS
-        return self.task._render_prompt(text, task, template, system_prompt, instructions)
