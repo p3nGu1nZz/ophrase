@@ -36,11 +36,9 @@ class Main:
         try:
             self.manager.check_version()
             responses, response_prompts = self.manager.generate_responses_and_prompts(text)
-            proofs = self.manager.generate_proofs(text, [r["response"] for r in responses])
-            proof_prompts = [self.manager.generate_proof_prompt(r["response"]) for r in responses]
-            final_result = Serializer.serialize_output(text, responses, response_prompts, proofs, proof_prompts, include_prompts)
+            final_result = Serializer.serialize_output(text, responses, response_prompts, include_prompts)
             json_output = json.dumps(final_result, indent=2, separators=(',', ': '))
-            console.print(JSON(json_output))  # Print colored JSON
+            console.print(JSON(json_output))
         except ValidationError as e:
             handle_error(e, debug)
         except Exception as e:

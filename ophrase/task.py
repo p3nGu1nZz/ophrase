@@ -51,9 +51,3 @@ class Task:
     def _parse_response(self, response: str) -> Dict[str, Any]:
         Log.debug(f"Raw response: {response}")  # Add this line to log the raw response
         return json.loads(response)
-
-    def create_prompt(self, text: str, task: str) -> str:
-        template = Template.TEMPLATES[task]
-        system_prompt = Template.SYSTEM_PROMPTS[task]
-        instructions = Template.INSTRUCTIONS
-        return self._render_prompt(text, task, template, system_prompt, instructions)

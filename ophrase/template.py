@@ -16,8 +16,7 @@ class Template:
     )
 
     SYSTEM_PROMPTS = {
-        "response": "You are an expert writing system that generates {{ task }}s. Provide a {{ task }} for the following text in {{ lang }}.",
-        "proof": "You are an expert proofing system that validates {{ task }}s. Provide a {{ task }} for the following text in {{ lang }}."
+        "response": "You are an expert writing system that generates {{ task }}s. Provide a {{ task }} for the following text in {{ lang }}."
     }
 
     PROMPT_TEMPLATE = (
@@ -29,13 +28,11 @@ class Template:
     )
 
     TEMPLATES = {
-        "response": T(PROMPT_TEMPLATE),
-        "proof": T(PROMPT_TEMPLATE)
+        "response": T(PROMPT_TEMPLATE)
     }
 
     TASKS = {
         "paraphrase": "What is 2 plus 2? What is the sum of 2 and 2?",
         "spelling": "How do you spell 'necessary'? How do you spell 'neccessary'?",
-        "synonym": "What is another word for 'happy'? What is a synonym for 'joyful'?",
-        "proof": "What is 2 plus 2? What is the sum of 2 and 2?"  # Add this line
+        "synonym": "What is another word for 'happy'? What is a synonym for 'joyful'?"
     }

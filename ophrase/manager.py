@@ -22,9 +22,3 @@ class Manager:
         responses = self.generator.generate_responses(text)
         prompts = [response['prompt'] for response in responses]
         return responses, prompts
-
-    def generate_proofs(self, text: str, responses: List[str]) -> List[str]:
-        return self.generator.generate_proofs(text, responses)
-
-    def generate_proof_prompt(self, response: str) -> str:
-        return self.task.create_prompt(response, task="proof")

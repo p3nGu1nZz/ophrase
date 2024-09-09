@@ -16,6 +16,3 @@ class Ophrase:
 
     def generate(self, text: str) -> Tuple[List[Dict[str, Any]], List[str]]:
         return self.manager.generate(text)
-
-    def validate(self, text: str, responses: List[str]) -> List[str]:
-        return self.manager.validate(text, responses)
