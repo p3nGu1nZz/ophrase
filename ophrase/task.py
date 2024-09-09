@@ -20,6 +20,7 @@ class Task:
 
     def execute(self, text: str, task: str, template, system_prompt, instructions) -> Dict[str, Any]:
         prompt = self._render_prompt(text, task, template, system_prompt, instructions)
+        prompt = self._post_process(prompt, task)  # Pass the task argument here
         Log.debug(f"Prompt: {prompt}")
         
         output = self._generate_output(prompt)
@@ -45,9 +46,18 @@ class Task:
             lang=self.cfg.lang
         )
 
+    def _post_process(self, prompt: str, task: str) -> str:
+        replacements = {
+            "{{ task }}": task,
+            "{{ lang }}": Const.LANG_DEFAULT
+        }
+        for key, value in replacements.items():
+            prompt = prompt.replace(key, value)
+        return prompt
+
     def _generate_output(self, prompt: str) -> Dict[str, Any]:
         return oll.generate(prompt=prompt, model=self.cfg.model)
 
     def _parse_response(self, response: str) -> Dict[str, Any]:
-        Log.debug(f"Raw response: {response}")  # Add this line to log the raw response
+        Log.debug(f"Raw response: {response}")
         return json.loads(response)
