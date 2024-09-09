@@ -1,5 +1,5 @@
 import argparse
-from .ophrase_const import Const
+from .constants import Const
 
 class Args:
     def __init__(self):

@@ -1,13 +1,12 @@
 from tenacity import retry, stop_after_attempt, wait_fixed
 from typing import List, Dict, Any, Tuple
 import json, subprocess as proc, ollama as oll
-from .ophrase_log import Log
-from .ophrase_util import post_process
-from .ophrase_const import Const
-from .ophrase_task import OphraseTask
-from .ophrase_template import TASKS 
+from .log import Log
+from .constants import Const
+from .task import OphraseTask
+from .template import TASKS 
 
-class OphraseProcessor:
+class Processor:
     def __init__(self, cfg, task: OphraseTask):
         self.cfg = cfg
         self.task = task

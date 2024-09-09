@@ -1,16 +1,16 @@
+import json
 from tenacity import retry, stop_after_attempt, wait_fixed
 from rich.console import Console
-from rich.json import JSON  # Ensure JSON is imported
+from rich.json import JSON
 from typing import List, Dict, Any, Tuple
 from .log import Log
 from .serializer import Serializer
-from .ophrase_const import Const
-from .ophrase_config import Config
+from .constants import Const
+from .config import Config
 from .manager import Manager
 from .args import Args
 from .error import handle_error, ValidationError
-from .decorators import args  # Updated import
-import json
+from .decorators import args
 
 console = Console()
 

@@ -1,6 +1,6 @@
 from typing import List, Dict, Any
 from .log import Log
-from .ophrase_gen import Generator
+from .generator import Generator
 
 class Response:
     def __init__(self, cfg, task):

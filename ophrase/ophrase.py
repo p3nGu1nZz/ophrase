@@ -1,12 +1,12 @@
 import json
 from typing import List, Dict, Any, Tuple
-from .ophrase_const import Const
-from .ophrase_config import Config
-from .ophrase_manager import OphraseManager
+from .constants import Const
+from .config import Config
+from .manager import Manager
 
 class Ophrase:
     def __init__(self, cfg: Config):
-        self.manager = OphraseManager(cfg)
+        self.manager = Manager(cfg)
 
     def check(self) -> None:
         self.manager.check()

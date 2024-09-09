@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field
-from .ophrase_const import Const
+from .constants import Const
 
 class Config(BaseModel):
     model: str = Field(default=Const.MODEL_DEFAULT)

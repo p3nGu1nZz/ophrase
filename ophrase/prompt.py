@@ -1,6 +1,6 @@
 from typing import NamedTuple
 
-class OphrasePrompt(NamedTuple):
+class Prompt(NamedTuple):
     task_type: str
     instructions: str
     system_prompt: str

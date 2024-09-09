@@ -1,7 +1,7 @@
 from typing import List, Dict, Any
 from .log import Log
-from .ophrase_const import Const
-from .template import Template  # Updated import
+from .constants import Const
+from .template import Template
 import subprocess as proc
 import ollama as oll
 import json

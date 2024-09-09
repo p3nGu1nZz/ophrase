@@ -1,7 +1,7 @@
 import json
-from .ophrase_const import Const
 from rich.console import Console
 from rich.panel import Panel
+from .constants import Const
 
 console = Console()
 
