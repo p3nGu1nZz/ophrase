@@ -61,7 +61,6 @@ class Task:
     def _parse_response(self, response: str) -> Any:
         Log.debug(f"Raw response: {response}")
         try:
-            # Ensure the response is a valid JSON array
             return json.loads(response)
         except json.JSONDecodeError as e:
             Log.error(f"JSON decode error: {e}")

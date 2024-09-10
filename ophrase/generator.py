@@ -24,8 +24,6 @@ class Generator:
         response_template = Template.TEMPLATES["response"]
         system_prompt = Template.SYSTEM_PROMPTS["response"]
         for task in Template.TASKS.keys():
-            if task == "proof":
-                continue
             response = self.task.execute(original_text, task, response_template, system_prompt, Template.INSTRUCTIONS)
             if Const.ERROR_KEY not in response:
                 results.append(response)

@@ -24,7 +24,7 @@ class Template:
         "Instructions: {{ instructions }}\n"
         "Example: {{ example }}\n"
         "User: {{ text }}\n"
-        "System: Return only a JSON array of sentences. No explanations, only JSON array."
+        "System: Return only a JSON array of sentences. No explanations, only JSON array; eg. [\"A\", \"B\", \"C\"]"
     )
 
     TEMPLATES = {
