@@ -61,7 +61,13 @@ class Task:
     def _parse_response(self, response: str) -> Any:
         Log.debug(f"Raw response: {response}")
         try:
-            return json.loads(response)
+            corrected_response = self._correct_response(response)
+            return json.loads(corrected_response)
         except json.JSONDecodeError as e:
             Log.error(f"JSON decode error: {e}")
             return {"error": "Invalid JSON response"}
+
+    def _correct_response(self, response: str) -> str:
+        if response.startswith("{") and response.endswith("}"):
+            response = "[" + response[1:-1] + "]"
+        return response
