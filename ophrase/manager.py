@@ -20,6 +20,9 @@ class Manager:
 
     def generate_responses_and_prompts(self, text: str) -> Tuple[List[Dict[str, Any]], List[str]]:
         responses = self.generator.generate_responses(text)
+        
+        # Extract prompts from the original responses before combining and shuffling
         original_responses = self.generator._collect_responses(text)
         prompts = [response['prompt'] for response in original_responses]
+        
         return responses, prompts

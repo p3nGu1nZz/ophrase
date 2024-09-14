@@ -5,9 +5,7 @@ class Serializer:
     def serialize_output(text: str, responses: List[Dict[str, Any]], response_prompts: List[str], include_prompts: bool) -> Dict[str, Any]:
         result = {
             "original_text": text,
-            "responses": {
-                "prompts": responses[0]["responses"]
-            }
+            "responses": responses[0]["responses"]
         }
         if include_prompts:
             result["prompts"] = {
